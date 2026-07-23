@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div class="page">
+  <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+
+  <div class="watermark" aria-hidden="true">
+    {% for _ in range(24) %}
+    <span>ARVIND GCC INTERNAL</span>
+    {% endfor %}
+  </div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#top" class="brand">
+        <span class="brand-mark">A</span>
+        <span class="brand-text">
+          <span class="brand-title">Arvind Global Capability Centre</span>
+          <span class="brand-subtitle">Employee Portal</span>
+        </span>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Primary">
+        <button type="button" data-scroll="glance">GCC at a Glance</button>
+        <button type="button" data-scroll="faqs">FAQs</button>
+        <button type="button" data-scroll="journey">Journey</button>
+        <button type="button" data-scroll="benefits">Benefits</button>
+        <button type="button" data-scroll="contacts">Contacts</button>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+          <span class="theme-icon theme-icon-moon">&#9790;</span>
+          <span class="theme-icon theme-icon-sun hidden">&#9728;</span>
+        </button>
+        <button type="button" id="mobile-menu-btn" class="icon-btn nav-mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+          &#9776;
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-nav" class="mobile-nav hidden">
+      <button type="button" data-scroll="glance">GCC at a Glance</button>
+      <button type="button" data-scroll="faqs">FAQs</button>
+      <button type="button" data-scroll="journey">Journey</button>
+      <button type="button" data-scroll="benefits">Benefits</button>
+      <button type="button" data-scroll="contacts">Contacts</button>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <span id="top" aria-hidden="true"></span>
+
+    <section class="hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-primary" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-gold" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <div class="hero-logo">
+          <img
+            src="{{ url_for('static', filename='images/arvind-gcc-logo.png') }}"
+            alt="Arvind GCC"
+            class="hero-logo-img"
+            width="460"
+            height="120"
+          >
+        </div>
+
+        <div class="hero-badge">
+          <span class="hero-badge-icon" aria-hidden="true">&#10022;</span>
+          Internal Communication
+        </div>
+
+        <h1>Welcome to <span class="text-shimmer">Arvind GCC</span></h1>
+        <p class="hero-tagline">Built on Legacy, Designed for the Future</p>
+        <p class="hero-desc">
+          A centralized capability platform designed to strengthen HR, Finance, Procurement, and IT
+          capabilities through standardization, automation, analytics, and improved operational excellence.
+        </p>
+
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary btn-3d hero-btn" data-scroll="faqs">
+            Explore FAQs
+            <span class="hero-btn-chevron" aria-hidden="true">&#8964;</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-3d hero-btn" data-scroll="contacts">
+            <span class="hero-btn-phone" aria-hidden="true">&#9742;</span>
+            View Contact SPOCs
+          </button>
+        </div>
+
+        <div class="hero-pills">
+          <span><span class="pill-icon" aria-hidden="true">&#9787;</span> Employee First</span>
+          <span><span class="pill-icon" aria-hidden="true">&#10003;</span> Transparent Transition</span>
+          <span><span class="pill-icon" aria-hidden="true">&#9650;</span> Future Ready</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="glance" class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <p class="eyebrow">Overview</p>
+          <h2>GCC at a Glance</h2>
+          <p>A concise view of what the Arvind Global Capability Centre is — and what it isn't.</p>
+        </header>
+        <div class="card-grid cols-3">
+          {% set glance_items = [
+            ("What is GCC", "The GCC is a value-led capability platform designed to strengthen select corporate and enabling activities across Arvind businesses."),
+            ("Why GCC", "To improve predictability, depth, operational excellence, and allow business leaders to focus more on customers, markets, and growth."),
+            ("Who is impacted", "Initial functions include HR, Finance, Procurement, and IT."),
+            ("Key Benefits", "Standardized processes, stronger analytics, automation, AI-enabled workflows, and cross-functional exposure."),
+            ("What remains unchanged", "Business ownership and decision-making continue to remain with the businesses.")
+          ] %}
+          {% for title, body in glance_items %}
+          <article class="card card-hover">
+            <h3>{{ title }}</h3>
+            <p>{{ body }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="concerns" class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <p class="eyebrow">Reassurance</p>
+          <h2>Your Key Concerns, Answered</h2>
+          <p>Direct answers to the questions most on employees' minds.</p>
+        </header>
+        <div class="card-grid cols-3">
+          {% for text in [
+            "This is not a headcount reduction initiative.",
+            "Your salary will not be impacted by the transition.",
+            "Existing business decision-making remains unchanged.",
+            "Relocation will be discussed individually where applicable.",
+            "Performance assessment will remain fair and comprehensive.",
+            "System access and onboarding will be communicated clearly."
+          ] %}
+          <div class="card concern-card">
+            <span class="check-icon">&#10003;</span>
+            <p>{{ text }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="faqs" class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <p class="eyebrow">Knowledge Base</p>
+          <h2>Frequently Asked Questions</h2>
+          <p>Search across every category, or jump directly to a topic.</p>
+        </header>
+
+        <div class="search-wrap">
+          <div class="search-box">
+            <span class="search-icon">&#128269;</span>
+            <input
+              id="faq-search"
+              type="search"
+              placeholder="Search questions, answers, or categories…"
+              aria-label="Search FAQs. Press slash or Control K to focus."
+              autocomplete="off"
+            >
+            <kbd class="search-kbd">/</kbd>
+            <button type="button" id="search-clear" class="icon-btn hidden" aria-label="Clear search">&times;</button>
+          </div>
+          <div class="search-meta">
+            <span>Showing <strong id="visible-count">{{ total_faqs }}</strong> of <strong>{{ total_faqs }}</strong> FAQs</span>
+            <div class="search-actions">
+              <button type="button" id="expand-all" class="btn btn-secondary btn-small">Expand all</button>
+              <button type="button" id="collapse-all" class="btn btn-secondary btn-small">Collapse all</button>
+            </div>
+          </div>
+          <div id="search-suggestions" class="suggestions hidden" aria-live="polite"></div>
+          <div id="no-results" class="empty-state hidden">
+            <h4>No results found</h4>
+            <p>We couldn't find any FAQs matching your search. Try different keywords or clear the search.</p>
+            <button type="button" id="clear-search-btn" class="btn btn-secondary">Clear search</button>
+          </div>
+        </div>
+
+        <div id="faq-results" class="faq-results">
+          <div id="faq-block-top" class="faq-block">
+            <h3>Most Frequently Asked</h3>
+            <p class="muted">The critical questions, answered first.</p>
+            <div id="top-faqs" class="accordion-list">
+              {% for faq in top_faqs %}
+              <details class="accordion" data-faq data-search-text="{{ faq.question }} {{ faq.answer }}" data-category-name="Most Frequently Asked" data-key="top-{{ loop.index0 }}">
+                <summary>
+                  <span class="q-badge">Q</span>
+                  <span class="faq-question">{{ faq.question }}</span>
+                </summary>
+                <div class="accordion-body">{{ faq.answer }}</div>
+              </details>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div id="category-faqs" class="faq-categories">
+            {% for cat in categories %}
+            <div id="cat-{{ cat.slug }}" class="faq-category" data-category="{{ cat.slug }}">
+              <div class="category-header">
+                <span class="category-icon">{{ cat.title[:1] }}</span>
+                <div>
+                  <h4>{{ cat.title }} <span class="count-badge">{{ cat.faqs|length }} FAQ{{ 's' if cat.faqs|length != 1 else '' }}</span></h4>
+                  <p class="muted">{{ cat.description }}</p>
+                </div>
+              </div>
+              <div class="accordion-list">
+                {% for faq in cat.faqs %}
+                <details class="accordion" data-faq data-search-text="{{ faq.question }} {{ faq.answer }} {{ cat.title }}" data-category-name="{{ cat.title }}" data-key="{{ cat.slug }}-{{ loop.index0 }}">
+                  <summary>
+                    <span class="q-badge">Q</span>
+                    <span class="faq-question">{{ faq.question }}</span>
+                  </summary>
+                  <div class="accordion-body">{{ faq.answer }}</div>
+                </details>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div id="quick-nav" class="quick-nav">
+          <h3>Quick Navigation</h3>
+          <div class="card-grid cols-4">
+            {% for cat in categories %}
+            <button type="button" class="card card-hover quick-nav-btn" data-scroll="cat-{{ cat.slug }}">
+              <span class="quick-nav-icon">{{ cat.title[:1] }}</span>
+              <span>
+                <strong>{{ cat.title }}</strong>
+                <small>{{ cat.faqs|length }} question{{ 's' if cat.faqs|length != 1 else '' }}</small>
+              </span>
+            </button>
+            {% endfor %}
+            <button type="button" class="card card-hover quick-nav-btn" data-scroll="contacts">
+              <span class="quick-nav-icon">@</span>
+              <span>
+                <strong>Contact SPOCs</strong>
+                <small>Reach the right person</small>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="journey" class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <p class="eyebrow">Roadmap</p>
+          <h2>GCC Transformation Journey</h2>
+          <p>From continuity today to future-ready capabilities tomorrow.</p>
+        </header>
+        <div class="journey-grid">
+          {% for stage in journey_stages %}
+          <div class="journey-item">
+            <div class="journey-icon">{{ loop.index }}</div>
+            <p class="journey-stage">Stage {{ loop.index }}</p>
+            <h4>{{ stage.title }}</h4>
+            <p>{{ stage.description }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits" class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <p class="eyebrow">Employee Value</p>
+          <h2>Employee Benefits</h2>
+          <p>What the GCC experience brings to you.</p>
+        </header>
+        <div class="card-grid cols-3">
+          {% for benefit in benefits %}
+          <article class="card card-hover">
+            <div class="benefit-icon">{{ benefit.title[:1] }}</div>
+            <h3>{{ benefit.title }}</h3>
+            <p>{{ benefit.description }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section id="contacts" class="section">
+      <div class="section-inner">
+        <header class="section-header">
+          <p class="eyebrow">Directory</p>
+          <h2>Contact SPOCs</h2>
+          <p>Reach the right point of contact for personalized clarification.</p>
+        </header>
+
+        {% for label, spocs in [("HR SPOCs", hr_spocs), ("Finance SPOCs", finance_spocs)] %}
+        <div class="spoc-group">
+          <h3 class="spoc-label">{{ label }}</h3>
+          <div class="card-grid cols-3">
+            {% for spoc in spocs %}
+            <article class="card card-hover spoc-card">
+              <div class="spoc-header">
+                <div class="spoc-avatar">{{ spoc.name[:2]|upper }}</div>
+                <div>
+                  <h4>{{ spoc.name }}</h4>
+                  <p class="spoc-fn">{{ spoc.function_name }}</p>
+                </div>
+              </div>
+              <div class="spoc-emails">
+                {% for email in spoc.email.split(',') %}
+                <a href="mailto:{{ email.strip() }}">{{ email.strip() }}</a>
+                {% endfor %}
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="feedback-section">
+      <div class="card feedback-card">
+        <h3>Was this helpful?</h3>
+        <p class="muted">Your feedback helps us make this portal clearer for everyone.</p>
+        <div id="feedback-form" class="feedback-actions">
+          <button type="button" class="btn btn-primary" data-feedback="yes">Yes</button>
+          <button type="button" class="btn btn-secondary" data-feedback="no">No</button>
+        </div>
+        <div id="feedback-thanks" class="feedback-thanks hidden"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="helpline card">
+        <div>
+          <strong>For any queries, please reach out to us at:</strong>
+          <a href="mailto:helpline@arvindgcc.com">helpline@arvindgcc.com</a>
+        </div>
+        <button type="button" id="copy-email" class="btn btn-secondary btn-small btn-copy">Copy email</button>
+      </div>
+      <div class="footer-meta">
+        <div class="brand compact">
+          <span class="brand-mark">A</span>
+          <span>
+            <strong>Arvind Global Capability Centre</strong>
+            <small>Employee FAQ Portal · Internal Use Only</small>
+          </span>
+        </div>
+        <small>&copy; {{ current_year }} Arvind Group. All rights reserved.</small>
+      </div>
+      <div class="disclaimer">
+        <strong>Internal Use Disclaimer:</strong>
+        This information is intended solely for employees of Arvind Group. Unauthorized reproduction,
+        forwarding, distribution, screenshots or sharing outside the organization is prohibited.
+      </div>
+    </div>
+  </footer>
+
+  <button type="button" id="back-to-top" class="back-to-top hidden" aria-label="Back to top">&#8593;</button>
+</div>
+{% endblock %}

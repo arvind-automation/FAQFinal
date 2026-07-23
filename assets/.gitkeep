@@ -1,0 +1,5 @@
+Place your transparent logo here as:
+  assets/arvind-gcc-logo.png
+
+It is copied to app/static/images/arvind-gcc-logo.png on app startup.
+Optional override: set LOGO_SOURCE_PATH in .env
