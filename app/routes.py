@@ -15,6 +15,7 @@ def index():
     benefits = Benefit.query.order_by(Benefit.sort_order).all()
     hr_spocs = Spoc.query.filter_by(spoc_type="hr").order_by(Spoc.sort_order).all()
     finance_spocs = Spoc.query.filter_by(spoc_type="finance").order_by(Spoc.sort_order).all()
+    gcc_spocs = Spoc.query.filter_by(spoc_type="gcc").order_by(Spoc.sort_order).all()
     total_faqs = FAQ.query.count()
 
     return render_template(
@@ -25,6 +26,7 @@ def index():
         benefits=benefits,
         hr_spocs=hr_spocs,
         finance_spocs=finance_spocs,
+        gcc_spocs=gcc_spocs,
         total_faqs=total_faqs,
     )
 

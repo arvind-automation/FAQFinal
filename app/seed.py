@@ -132,6 +132,7 @@ BENEFITS = [
 ]
 
 HR_SPOCS = [
+    ("Rahul Gupta", "Head - HR, GCC", "rahul.gupta01@arvind.in"),
     ("Manish Upadhyaya", "Talent Acquisition", "manish.upadhyaya@arvind.in"),
     ("M. Durga Prasanth", "Employee Life Cycle Management", "durga.prasanth@arvind.in"),
     ("Prashant Sharma", "HR Transformation & Analytics", "Prashant.Sharma@arvind.in"),
@@ -139,12 +140,17 @@ HR_SPOCS = [
 ]
 
 FINANCE_SPOCS = [
+    ("Rajat Sapra", "Head - Finance, GCC", "rajat.sapra@arvind.in"),
     ("Saurabh Arora / Lalit Chhag", "Accounts Payable", "Saurabh.arora@arvind.in,lalit.chhag@arvind.in"),
     ("Sandeep Bhatt", "Record to Report", "Sandeep.bhatt@arvind.in"),
     ("Saurabh Arora", "Treasury", "Saurabh.arora@arvind.in"),
     ("Mahendra Tank", "Exports Account Receivables", "Mahendra.tank@arvind.in"),
     ("Jitendra Acharya", "Direct Tax", "Jitendra.acharya@arvind.in"),
     ("Surendra Zala", "Indirect Tax", "surendra.zala@arvind.in"),
+]
+
+GCC_SPOCS = [
+    ("Ms. Shalom Christian", "GCC SPOC", "shalom.christian@arvind.in"),
 ]
 
 
@@ -197,6 +203,11 @@ def seed_database():
     for i, (name, fn, email) in enumerate(FINANCE_SPOCS):
         db.session.add(
             Spoc(name=name, function_name=fn, email=email, spoc_type="finance", sort_order=i)
+        )
+
+    for i, (name, fn, email) in enumerate(GCC_SPOCS):
+        db.session.add(
+            Spoc(name=name, function_name=fn, email=email, spoc_type="gcc", sort_order=i)
         )
 
     db.session.commit()

@@ -39,6 +39,16 @@
           &#9776;
         </button>
       </div>
+
+      <a href="#top" class="header-logo" aria-label="Arvind GCC">
+        <img
+          src="{{ url_for('static', filename='images/arvind-gcc-logo.png') }}?v=4"
+          alt="Arvind GCC"
+          class="header-logo-img"
+          width="220"
+          height="48"
+        >
+      </a>
     </div>
 
     <div id="mobile-nav" class="mobile-nav hidden">
@@ -59,16 +69,6 @@
       <div class="hero-orb hero-orb-gold" aria-hidden="true"></div>
 
       <div class="hero-inner">
-        <div class="hero-logo">
-          <img
-            src="{{ url_for('static', filename='images/arvind-gcc-logo.png') }}"
-            alt="Arvind GCC"
-            class="hero-logo-img"
-            width="460"
-            height="120"
-          >
-        </div>
-
         <div class="hero-badge">
           <span class="hero-badge-icon" aria-hidden="true">&#10022;</span>
           Internal Communication
@@ -77,8 +77,7 @@
         <h1>Welcome to <span class="text-shimmer">Arvind GCC</span></h1>
         <p class="hero-tagline">Built on Legacy, Designed for the Future</p>
         <p class="hero-desc">
-          A centralized capability platform designed to strengthen HR, Finance, Procurement, and IT
-          capabilities through standardization, automation, analytics, and improved operational excellence.
+          A centralized capability platform that strengthens our core enabling functions through standardization, automation, analytics, and operational excellence.
         </p>
 
         <div class="hero-actions">
@@ -111,7 +110,7 @@
           {% set glance_items = [
             ("What is GCC", "The GCC is a value-led capability platform designed to strengthen select corporate and enabling activities across Arvind businesses."),
             ("Why GCC", "To improve predictability, depth, operational excellence, and allow business leaders to focus more on customers, markets, and growth."),
-            ("Who is impacted", "Initial functions include HR, Finance, Procurement, and IT."),
+            ("Which functions are transitioning", "Initial functions include HR, Finance, Procurement, and IT."),
             ("Key Benefits", "Standardized processes, stronger analytics, automation, AI-enabled workflows, and cross-functional exposure."),
             ("What remains unchanged", "Business ownership and decision-making continue to remain with the businesses.")
           ] %}
@@ -135,7 +134,7 @@
         <div class="card-grid cols-3">
           {% for text in [
             "This is not a headcount reduction initiative.",
-            "Your salary will not be impacted by the transition.",
+            "Your compensation & benefits will not be impacted by the transition.",
             "Existing business decision-making remains unchanged.",
             "Relocation will be discussed individually where applicable.",
             "Performance assessment will remain fair and comprehensive.",
@@ -300,7 +299,7 @@
           <p>Reach the right point of contact for personalized clarification.</p>
         </header>
 
-        {% for label, spocs in [("HR SPOCs", hr_spocs), ("Finance SPOCs", finance_spocs)] %}
+        {% for label, spocs in [("HR SPOCs", hr_spocs), ("Finance SPOCs", finance_spocs), ("GCC SPOCs", gcc_spocs)] %}
         <div class="spoc-group">
           <h3 class="spoc-label">{{ label }}</h3>
           <div class="card-grid cols-3">
