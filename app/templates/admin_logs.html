@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page admin-page">
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="{{ url_for('main.index') }}" class="brand">
+        <span class="brand-mark">A</span>
+        <span class="brand-text">
+          <span class="brand-title">Access Logs</span>
+          <span class="brand-subtitle">Arvind GCC FAQ Portal</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <a href="{{ url_for('main.index') }}" class="logout-link">Back to portal</a>
+        {% if auth_enabled %}
+        <a href="{{ url_for('auth.logout') }}" class="logout-link">Sign out</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="section-card admin-logs-card">
+      <header class="section-header">
+        <h1>User access logs</h1>
+        <p>Sign-ins and page visits for authenticated users.</p>
+      </header>
+
+      {% if logs %}
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>When (UTC)</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Action</th>
+              <th>IP address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for log in logs %}
+            <tr>
+              <td>{{ log.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+              <td>{{ log.name or '—' }}</td>
+              <td>{{ log.email }}</td>
+              <td>
+                <span class="log-badge log-badge-{{ log.action }}">
+                  {{ 'Sign in' if log.action == 'login' else 'Page view' }}
+                </span>
+              </td>
+              <td>{{ log.ip_address or '—' }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% if pagination.pages > 1 %}
+      <nav class="admin-pagination" aria-label="Log pages">
+        {% if pagination.has_prev %}
+        <a href="{{ url_for('main.admin_logs', page=pagination.prev_num) }}">Previous</a>
+        {% endif %}
+        <span>Page {{ pagination.page }} of {{ pagination.pages }}</span>
+        {% if pagination.has_next %}
+        <a href="{{ url_for('main.admin_logs', page=pagination.next_num) }}">Next</a>
+        {% endif %}
+      </nav>
+      {% endif %}
+      {% else %}
+      <p class="admin-empty">No access logs recorded yet.</p>
+      {% endif %}
+    </section>
+  </main>
+</div>
+{% endblock %}

@@ -1,7 +1,9 @@
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, abort, jsonify, render_template, request, session
 
 from app import db
-from app.models import Benefit, FAQ, FAQCategory, Feedback, JourneyStage, Spoc
+from app.access_log import is_log_admin, record_access_log
+from app.auth import is_authenticated
+from app.models import AccessLog, Benefit, FAQ, FAQCategory, Feedback, JourneyStage, Spoc
 from app.seed import seed_database
 
 main_bp = Blueprint("main", __name__)
@@ -9,6 +11,10 @@ main_bp = Blueprint("main", __name__)
 
 @main_bp.route("/")
 def index():
+    if is_authenticated() and not session.get("page_view_logged"):
+        record_access_log("page_view")
+        session["page_view_logged"] = True
+
     categories = FAQCategory.query.order_by(FAQCategory.sort_order).all()
     top_faqs = FAQ.query.filter_by(is_top=True).order_by(FAQ.sort_order).all()
     journey_stages = JourneyStage.query.order_by(JourneyStage.sort_order).all()
@@ -28,6 +34,25 @@ def index():
         finance_spocs=finance_spocs,
         gcc_spocs=gcc_spocs,
         total_faqs=total_faqs,
+    )
+
+
+@main_bp.route("/admin/logs")
+def admin_logs():
+    if not is_log_admin():
+        abort(403)
+
+    page = max(request.args.get("page", 1, type=int), 1)
+    per_page = 50
+
+    pagination = AccessLog.query.order_by(AccessLog.created_at.desc()).paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+
+    return render_template(
+        "admin_logs.html",
+        logs=pagination.items,
+        pagination=pagination,
     )
 
 

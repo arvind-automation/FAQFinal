@@ -107,6 +107,21 @@ button { font: inherit; cursor: pointer; }
 }
 .nav-desktop button:hover { color: var(--foreground); }
 .header-actions { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+.logout-link {
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 80%, transparent);
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.logout-link:hover {
+  color: var(--foreground);
+  border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
+}
 .header-logo {
   display: flex;
   align-items: center;
@@ -625,4 +640,96 @@ mark {
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Content protection: discourage copy/paste on portal content */
+body[data-content-protection="true"] .page {
+  -webkit-user-select: none;
+  user-select: none;
+}
+body[data-content-protection="true"] .page input,
+body[data-content-protection="true"] .page textarea,
+body[data-content-protection="true"] .page button,
+body[data-content-protection="true"] .page select,
+body[data-content-protection="true"] .page [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.admin-page .page,
+.admin-page .admin-table-wrap {
+  -webkit-user-select: text;
+  user-select: text;
+}
+.admin-main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+.admin-logs-card {
+  padding: 1.5rem;
+}
+.admin-logs-card h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.35rem;
+}
+.admin-logs-card .section-header p {
+  color: var(--muted-foreground);
+  margin-bottom: 1.25rem;
+}
+.admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.admin-table th,
+.admin-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.admin-table th {
+  background: var(--secondary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.log-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.log-badge-login {
+  background: color-mix(in oklab, var(--primary) 14%, transparent);
+  color: var(--primary);
+}
+.log-badge-page_view {
+  background: color-mix(in oklab, var(--brand-gold) 18%, transparent);
+  color: var(--brand-ink);
+}
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+}
+.admin-pagination a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.admin-empty {
+  color: var(--muted-foreground);
+  padding: 2rem 0;
+  text-align: center;
 }

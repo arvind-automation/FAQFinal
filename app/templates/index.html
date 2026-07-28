@@ -31,6 +31,12 @@
       </nav>
 
       <div class="header-actions">
+        {% if auth_enabled %}
+        {% if is_log_admin %}
+        <a href="{{ url_for('main.admin_logs') }}" class="logout-link">Access logs</a>
+        {% endif %}
+        <a href="{{ url_for('auth.logout') }}" class="logout-link" title="Sign out{% if current_user and current_user.name %} ({{ current_user.name }}){% endif %}">Sign out</a>
+        {% endif %}
         <button type="button" id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
           <span class="theme-icon theme-icon-moon">&#9790;</span>
           <span class="theme-icon theme-icon-sun hidden">&#9728;</span>

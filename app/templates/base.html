@@ -9,8 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;600;700;800;900&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body>
+<body{% if auth_enabled %} data-content-protection="true"{% endif %}>
   {% block content %}{% endblock %}
   <script src="{{ url_for('static', filename='js/portal.js') }}"></script>
+  {% if auth_enabled %}
+  <script src="{{ url_for('static', filename='js/content-protection.js') }}"></script>
+  {% endif %}
 </body>
 </html>

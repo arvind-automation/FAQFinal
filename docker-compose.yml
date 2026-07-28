@@ -29,6 +29,15 @@ services:
       DATABASE_URL: mysql+pymysql://${MYSQL_USER:-gcc_user}:${MYSQL_PASSWORD:-gcc_pass}@db:3306/${MYSQL_DATABASE:-arvind_gcc}
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       FLASK_DEBUG: ${FLASK_DEBUG:-0}
+      AUTH_ENABLED: ${AUTH_ENABLED:-1}
+      AZURE_TENANT_ID: ${AZURE_TENANT_ID:-}
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
+      AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET:-}
+      AZURE_REDIRECT_URI: ${AZURE_REDIRECT_URI:-https://faq.arvindgcc.com/auth/callback}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-1}
+      SESSION_COOKIE_SAMESITE: ${SESSION_COOKIE_SAMESITE:-Lax}
+      SESSION_LIFETIME_HOURS: ${SESSION_LIFETIME_HOURS:-8}
+      LOG_ADMIN_EMAILS: ${LOG_ADMIN_EMAILS:-}
     depends_on:
       db:
         condition: service_healthy

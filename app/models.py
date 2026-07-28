@@ -70,3 +70,20 @@ class Feedback(db.Model):
         default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
+
+
+class AccessLog(db.Model):
+    __tablename__ = "access_logs"
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(512), nullable=False, index=True)
+    name = db.Column(db.String(255), nullable=False, default="")
+    action = db.Column(db.String(32), nullable=False, index=True)
+    ip_address = db.Column(db.String(64), nullable=True)
+    user_agent = db.Column(db.String(512), nullable=True)
+    created_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+        index=True,
+    )
