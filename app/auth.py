@@ -1,6 +1,7 @@
 import logging
 from urllib.parse import quote
 
+import requests
 from authlib.integrations.flask_client import OAuth
 from flask import Blueprint, current_app, redirect, request, session, url_for
 
@@ -43,19 +44,12 @@ def _redirect_uri():
     )
 
 
-def _fetch_user_info():
-    """Exchange auth code for tokens, then load profile without JWKS id_token validation."""
-    oauth.microsoft.fetch_access_token(
-        authorization_response=request.url,
-        redirect_uri=_redirect_uri(),
+def _profile_from_graph(access_token: str):
+    response = requests.get(
+        "https://graph.microsoft.com/v1.0/me",
+        headers={"Authorization": f"Bearer {access_token}"},
+        timeout=30,
     )
-
-    try:
-        return oauth.microsoft.userinfo()
-    except Exception:
-        logger.warning("userinfo endpoint failed, falling back to Microsoft Graph", exc_info=True)
-
-    response = oauth.microsoft.get("https://graph.microsoft.com/v1.0/me")
     response.raise_for_status()
     profile = response.json()
 
@@ -64,6 +58,34 @@ def _fetch_user_info():
         "name": profile.get("displayName", ""),
         "preferred_username": profile.get("userPrincipalName", ""),
     }
+
+
+def _fetch_user_info():
+    """Exchange auth code for tokens, then load profile without JWKS id_token validation."""
+    token = oauth.microsoft.fetch_access_token(
+        authorization_response=request.url,
+        redirect_uri=_redirect_uri(),
+    )
+
+    access_token = (token or {}).get("access_token")
+    if not access_token:
+        token_keys = list(token.keys()) if isinstance(token, dict) else None
+        logger.error("Microsoft token exchange returned no access_token. Keys: %s", token_keys)
+        raise ValueError("No access_token received from Microsoft")
+
+    headers = {"Authorization": f"Bearer {access_token}"}
+    metadata = oauth.microsoft.load_server_metadata()
+    userinfo_url = metadata.get("userinfo_endpoint")
+
+    if userinfo_url:
+        try:
+            response = requests.get(userinfo_url, headers=headers, timeout=30)
+            response.raise_for_status()
+            return response.json()
+        except Exception:
+            logger.warning("userinfo request failed, falling back to Microsoft Graph", exc_info=True)
+
+    return _profile_from_graph(access_token)
 
 
 @auth_bp.route("/login")
