@@ -3,6 +3,7 @@ import time
 
 from app import create_app, db
 from app.assets import ensure_logo
+from app.db_init import initialize_database
 from app.seed import seed_database
 
 app = create_app()
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     ensure_logo()
     wait_for_db()
     with app.app_context():
-        db.create_all()
+        initialize_database()
         seed_database()
 
     debug = os.getenv("FLASK_DEBUG", "0") == "1"

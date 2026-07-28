@@ -74,6 +74,8 @@ def submit_feedback():
 @main_bp.cli.command("init-db")
 def init_db_command():
     """Initialize database tables and seed portal content."""
-    db.create_all()
+    from app.db_init import initialize_database
+
+    initialize_database()
     seed_database()
     print("Database initialized and seeded.")
