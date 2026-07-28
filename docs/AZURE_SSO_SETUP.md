@@ -51,6 +51,13 @@ X-Forwarded-Host: faq.arvindgcc.com
 
 No URL path changes are required.
 
+The app server must allow **outbound HTTPS** to:
+
+- `login.microsoftonline.com`
+- `graph.microsoft.com` (fallback user profile lookup)
+
+If JWKS validation fails (common on locked-down servers), the app uses the userinfo / Graph API instead of validating the ID token signature locally.
+
 ## Application environment variables
 
 Set on the production server:

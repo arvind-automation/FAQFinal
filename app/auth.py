@@ -1,9 +1,12 @@
+import logging
 from urllib.parse import quote
 
 from authlib.integrations.flask_client import OAuth
-from flask import Blueprint, current_app, redirect, session, url_for
+from flask import Blueprint, current_app, redirect, request, session, url_for
 
 from app.access_log import record_access_log
+
+logger = logging.getLogger(__name__)
 
 oauth = OAuth()
 auth_bp = Blueprint("auth", __name__)
@@ -23,12 +26,44 @@ def init_oauth(app):
         server_metadata_url=(
             f"https://login.microsoftonline.com/{tenant_id}/v2.0/.well-known/openid-configuration"
         ),
-        client_kwargs={"scope": "openid profile email User.Read"},
+        client_kwargs={
+            "scope": "openid profile email User.Read",
+            "token_endpoint_auth_method": "client_secret_post",
+        },
     )
 
 
 def is_authenticated():
     return bool(session.get("user"))
+
+
+def _redirect_uri():
+    return current_app.config.get("AZURE_REDIRECT_URI") or url_for(
+        "auth.callback", _external=True
+    )
+
+
+def _fetch_user_info():
+    """Exchange auth code for tokens, then load profile without JWKS id_token validation."""
+    oauth.microsoft.fetch_access_token(
+        authorization_response=request.url,
+        redirect_uri=_redirect_uri(),
+    )
+
+    try:
+        return oauth.microsoft.userinfo()
+    except Exception:
+        logger.warning("userinfo endpoint failed, falling back to Microsoft Graph", exc_info=True)
+
+    response = oauth.microsoft.get("https://graph.microsoft.com/v1.0/me")
+    response.raise_for_status()
+    profile = response.json()
+
+    return {
+        "email": profile.get("mail") or profile.get("userPrincipalName", ""),
+        "name": profile.get("displayName", ""),
+        "preferred_username": profile.get("userPrincipalName", ""),
+    }
 
 
 @auth_bp.route("/login")
@@ -39,10 +74,7 @@ def login():
     if is_authenticated():
         return redirect(url_for("main.index"))
 
-    redirect_uri = current_app.config.get("AZURE_REDIRECT_URI") or url_for(
-        "auth.callback", _external=True
-    )
-    return oauth.microsoft.authorize_redirect(redirect_uri)
+    return oauth.microsoft.authorize_redirect(_redirect_uri())
 
 
 @auth_bp.route("/auth/callback")
@@ -50,10 +82,12 @@ def callback():
     if not current_app.config.get("AUTH_ENABLED"):
         return redirect(url_for("main.index"))
 
-    token = oauth.microsoft.authorize_access_token()
-    user_info = token.get("userinfo")
-    if not user_info:
-        user_info = oauth.microsoft.userinfo()
+    try:
+        user_info = _fetch_user_info()
+    except Exception:
+        logger.exception("Microsoft SSO callback failed")
+        session.clear()
+        return redirect(url_for("auth.login"))
 
     session.clear()
     session["user"] = {
